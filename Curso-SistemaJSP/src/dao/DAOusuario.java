@@ -47,6 +47,7 @@ public class DAOusuario {
 			BeanCursoJSP bean = new BeanCursoJSP();
 			bean.setLogin(result.getString("login"));
 			bean.setSenha(result.getString("senha"));
+			bean.setId(result.getLong("id"));	
 			listar.add(bean);
 		}
 		return listar;
@@ -73,7 +74,7 @@ public class DAOusuario {
 	/*
 	 * 1 - Pega o sql e passa o nome do login
 	 * 2 - Prepara um objeto para executar o sql
-	 * 3 - Prepara um objeto para pegar o resultado da exeção
+	 * 3 - Prepara um objeto para pegar o resultado da exeÃ§Ã£o
 	 * 4 - verifica se existe no banco de dados usando o next
 	 * 5 - Prepara um objeto para pegar os valores do banco de dados
 	 * 6 - Seta os valores do banco de dados para esse objeto representante
