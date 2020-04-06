@@ -10,40 +10,51 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.BeanCursoJSP;
+import dao.DAOlogin;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public LoginServlet() {
-        super();
-    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	private DAOlogin daoLogin = new DAOlogin();
+
+	public LoginServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
-		BeanCursoJSP bean = new BeanCursoJSP();
-		String login = (request.getParameter("login"));
-		String senha = (request.getParameter("senha"));
-		
-		if(bean.validar(login, senha)) { //Acesso liberado
-			RequestDispatcher dispatcher = request.getRequestDispatcher("acessoLiberado.jsp");
-			dispatcher.forward(request, response);
-		}else { //Acesso negado
-			RequestDispatcher dispatcher = request.getRequestDispatcher("acessoNegado.jsp");
-			dispatcher.forward(request, response);
-			
+
+		// Colocando o bloco dentro de uma excessão
+		try {
+			// Iniciando um objeto do tipo Bean ou criando uma instancia.
+			BeanCursoJSP beanCursoJsp = new BeanCursoJSP();
+
+			String login = request.getParameter("login");
+			String senha = request.getParameter("senha");
+
+			// If de validação do login
+			if (daoLogin.validarLogin (login, senha)) {
+				// Acesso ok
+				RequestDispatcher dispatcher = request.getRequestDispatcher("acessoLiberado.jsp");
+				dispatcher.forward(request, response);
+			} else {
+				// acesso negado
+				RequestDispatcher dispatcher = request.getRequestDispatcher("acessoNegado.jsp");
+				dispatcher.forward(request, response);
+
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
 		}
-		
 	}
 
 }
-
-
-
-
-
