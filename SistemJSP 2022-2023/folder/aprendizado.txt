@@ -1,0 +1,13 @@
+
+1 - O Login não estava sendo feito por causa que o input do html não estava escrito confome na classe java, 
+e no método ( request.getParameter("senha"); ) para poder trabalhar. Na página tem que ser igual: <input name="senha"...
+
+1 - o método doGet recebe por url do navegador ou html:Ex <a href="ServletLogin?acao=logout">;
+O doPost por requisição da página:Ex <form action="ServletLogin" method="post"> onde pega os parâmetros na servlet que foram escritos na página
+
+2 - Duas formar de pegar o objeto logado pelo jsp <%= request.getSession().getAttribute("usuario") %> ou <%= session.getAttribute("usuario") %>
+
+3 - No ódigo <form class="form-material" action="<%= request.getContextPath() %>/ServletUsuarioController" method="post"> O formulário pode
+acessar as vaiaveis da classe java que tem esse mapeamento.
+
+4 - Erros: Não estava limpando o formulário por causa que não estava fechado uma chave do form, depois o button novo não estava com o onclick="" correto
