@@ -85,12 +85,29 @@ public class DAOUsuarioRepository {
 		return false;
 	}
 	
-	public void deletarUser(String idUser) throws SQLException {
+	public void deletarUser(String idUser) {
+		try {
+			
 		String sql = "DELETE FROM model_login WHERE id = ?";
 		PreparedStatement prepareSQL = connection.prepareStatement(sql);
 		prepareSQL.setLong(1, Long.parseLong(idUser)); /*Setar o parâmetro. Conver para long para o banco de dados */
 		prepareSQL.executeUpdate();
 		
 		connection.commit();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void deletarUserLogin(String loginUser) {
+		try {
+			
+			String sql = "DELETE FROM model_login WHERE login = ?";
+			PreparedStatement prepareSQL = connection.prepareStatement(sql);
+			prepareSQL.setString(1, loginUser); /*Setar o parâmetro. Conver para long para o banco de dados */
+			prepareSQL.executeUpdate();
+			connection.commit();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

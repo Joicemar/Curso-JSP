@@ -1,7 +1,7 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.List;
 
 import dao.DAOUsuarioRepository;
 import jakarta.servlet.RequestDispatcher;
@@ -26,20 +26,42 @@ public class ServletUsuarioController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		try {
-			String deletar = request.getParameter("action");
+		String action = request.getParameter("action");
 
-			if (deletar != null && !deletar.isEmpty() && deletar.equalsIgnoreCase("deletar")) {
-				String idUser = request.getParameter("id");
+		if (action != null && !action.isEmpty() && action.equalsIgnoreCase("deletar")) {
+			String idUser = request.getParameter("id");
+			String loginUser = request.getParameter("login");
+
+			if (idUser != null && !idUser.isEmpty()) {
 				daoUsuarioRepository.deletarUser(idUser);
-				request.setAttribute("msg", "Usuário Deletado com sucesso!");
-				request.getRequestDispatcher("principal/cadastro-usuario.jsp").forward(request, response);
+			} else if (loginUser != null) {
+				daoUsuarioRepository.deletarUserLogin(loginUser);
+			} else {
+				daoUsuarioRepository.deletarUser(idUser);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
-			request.setAttribute("msg", e.getMessage());
-			redirecionar.forward(request, response);
+			request.setAttribute("msg", "Usuário deletado com sucesso!");
+			request.getRequestDispatcher("principal/cadastro-usuario.jsp").forward(request, response);
+
+		} else if (action != null && !action.isEmpty() && action.equalsIgnoreCase("deletarajax")) {
+
+			String idUser = request.getParameter("id");
+
+			daoUsuarioRepository.deletarUser(idUser);
+
+			response.getWriter().write("Excluido com sucesso!");
+		} else if (action != null && !action.isEmpty() && action.equalsIgnoreCase("buscarUserAjax")) {
+
+			String nomeBusca = request.getParameter("nomeBusca");
+			System.out.println(nomeBusca);
+			
+		} 
+		else if (action != null && !action.isEmpty() && action.equalsIgnoreCase("buscarUser")) {
+
+			String nomeBusca = request.getParameter("nomeBusca");
+			System.out.println(nomeBusca);
+		}
+		else {
+			request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 		}
 
 	}
